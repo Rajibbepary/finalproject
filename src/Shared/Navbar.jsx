@@ -7,11 +7,10 @@ const Navbar = () => {
     const links = <div className='flex uppercase max-sm:flex-col gap-1'>
     
     <li><NavLink to="/">Home</NavLink></li>
-    <li><NavLink to="/">Contact Us</NavLink></li>
-    <li><NavLink to='/'>Dashboard</NavLink></li>
     <li><NavLink to='/menu'>Our Menu</NavLink></li>
-    <li><NavLink to='/' >Our Shop</NavLink></li>
+    <li><NavLink to='/order/salad' >Our Food</NavLink></li>
     <li><NavLink to='/' >Contact Us</NavLink></li>
+    <li><NavLink to='/'>Dashboard</NavLink></li>
     </div>
 
 
