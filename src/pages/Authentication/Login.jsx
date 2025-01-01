@@ -1,13 +1,20 @@
 import { Link } from "react-router-dom";
-
 import lottieLogin from '../../assets/lottie/Animation - 1734804666104.json'
 import logo from '../../assets/home/logo.png'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Lottie from 'lottie-react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
-
+import { loadCaptchaEnginge, 
+        LoadCanvasTemplate, 
+         validateCaptcha } from 'react-simple-captcha';
+import { toast } from "react-toastify";
 
 const Login = () => {
+   const captchaRef = useRef(null)
+    
+    useEffect( () => {
+        loadCaptchaEnginge(6); 
+    }, [])
    
     const [showPassword, setShowPassword] = useState(false)
     
@@ -20,10 +27,21 @@ const Login = () => {
         console.log(email,password)
     } 
 
+const handleValidateCaptcha = () => {
+    const user_captcha_value = captchaRef.current.value;
+    if (validateCaptcha(user_captcha_value)==true) {
+        toast.success('Captcha Matched SuccessFul!');
+    }
+
+    else {
+        toast.error('Captcha Does Not Match');
+    }
+}
 
 
     return (
         <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
+            
         <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl '>
           <div
             className='hidden bg-cover bg-center lg:block p-3 lg:w-1/2'>
@@ -119,10 +137,32 @@ const Login = () => {
                   }
                   </p>
               </div>
+              {/* use react simple captcha start */}
+              <div className='mt-4'>
+                <label
+                  className='block mb-2 text-sm font-medium text-gray-600 '
+                  htmlFor='LoggingEmailAddress'
+                >
+                 <LoadCanvasTemplate /> 
+                </label>
+                <input
+                  name='captcha'
+                  placeholder="type the captcha above"
+                  className='block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300'
+                  type='text'
+                  ref={captchaRef}
+
+                />
+               
+              </div>
+  
+                  
+                {/* react simple captha end */}
               <div className='mt-6'>
                 <button
-                  type='submit'
-                  className='w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50'
+                  type='submit' onClick={handleValidateCaptcha}
+                  className="btn block w-full btn-outline border-0 border-b-4 rounded-2xl "
+                //   className='w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50'
                 >
                   Sign In
                 </button>
