@@ -1,31 +1,47 @@
 import { Link } from "react-router-dom";
 import lottieLogin from '../../assets/lottie/Animation - 1734804666104.json'
 import logo from '../../assets/home/logo.png'
-import { useEffect, useRef, useState } from 'react'
 import Lottie from 'lottie-react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { loadCaptchaEnginge, 
         LoadCanvasTemplate, 
          validateCaptcha } from 'react-simple-captcha';
 import { toast } from "react-toastify";
+import { useEffect, useRef, useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+
+
 
 const Login = () => {
+  
    const captchaRef = useRef(null)
-    
+   const {signIn} = useContext(AuthContext);
+
     useEffect( () => {
         loadCaptchaEnginge(6); 
     }, [])
    
     const [showPassword, setShowPassword] = useState(false)
     
-    const handleLogin = event => {
-        event.preventDefault()
-        const form = event.target;
-        const email = form.email.value;
-        const password = form.password.value;
-
-        console.log(email,password)
-    } 
+    const handleGoogleSignIn =  () => {
+    
+    }
+  
+    // Email Password Signin
+    const handleSignIn =  e => {
+      e.preventDefault()
+      const form = e.target
+      const email = form.email.value
+      const password = form.password.value
+      console.log( email, password )
+      signIn(email, password)
+      .then(result => {
+        const user = result.user;
+       console.log(user);
+        
+      })
+    }
 
 const handleValidateCaptcha = () => {
     const user_captcha_value = captchaRef.current.value;
@@ -58,7 +74,7 @@ const handleValidateCaptcha = () => {
             </p>
   
             <div
-              
+                onClick={handleGoogleSignIn}
               className='flex cursor-pointer items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg   hover:bg-gray-50 '
             >
               <div className='px-4 py-2'>
@@ -96,7 +112,7 @@ const handleValidateCaptcha = () => {
   
               <span className='w-1/5 border-b dark:border-gray-400 lg:w-1/4'></span>
             </div>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSignIn}>
               <div className='mt-4'>
                 <label
                   className='block mb-2 text-sm font-medium text-gray-600 '
@@ -173,7 +189,7 @@ const handleValidateCaptcha = () => {
               <span className='w-1/5 border-b  md:w-1/4'></span>
   
               <Link
-                to='/registration'
+                to='/register'
                 className='text-xs text-gray-500 uppercase  hover:underline'
               >
                 or sign up

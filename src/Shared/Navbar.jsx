@@ -50,7 +50,7 @@ const Navbar = () => {
 
   {/* dropdown part start */}
  
-  <div className="navbar-end">
+  <div className="navbar-end mr-6">
     <Link to='/login'>Login</Link> 
   </div>
 </div>

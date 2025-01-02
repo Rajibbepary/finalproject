@@ -5,7 +5,7 @@ const FoodCard = ({item}) => {
         <div className="card bg-base-100  shadow-xl">
   <figure>
     <img
-      src={image}
+      src={image} className="hover:scale-110 transition"
       alt="Food Image" />
   </figure>
   <p className="absolute right-0 mr-4 bg-slate-900 px-2 py-1 rounded-md top-3 text-white">$ {price}</p>
