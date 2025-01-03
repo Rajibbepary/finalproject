@@ -74,7 +74,7 @@ const handleGoogleSignIn = async () => {
     return (
        <>
        <Helmet>
-                             <title>Bistro Boss | Login</title>
+                     <title>Bistro Boss | Login</title>
                          </Helmet>
         <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
             

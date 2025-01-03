@@ -7,6 +7,7 @@ import Menu from "../pages/Menu/Menu";
 import OrderFood from "../pages/order/OrderFood";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
+import Contact from "../pages/contact/Contact";
 
 
 
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
         {
           path:'order/:category',
           element:<OrderFood/>
+        },
+        {
+          path:'contact',
+          element:<Contact/>
         },
         {
           path:'login',
