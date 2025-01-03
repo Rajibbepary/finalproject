@@ -3,7 +3,8 @@ import logo from '../assets/home/logo.png'
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { FaShoppingCart } from "react-icons/fa";
-import useCart from "./useCart";
+import useCart from "../hooks/useCart";
+
 
 
 const Navbar = () => {
