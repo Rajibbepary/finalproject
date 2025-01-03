@@ -3,11 +3,12 @@ import logo from '../assets/home/logo.png'
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { FaShoppingCart } from "react-icons/fa";
+import useCart from "./useCart";
 
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext)
-  
+  const [cart] = useCart();
     const links = <div className='flex uppercase max-sm:flex-col gap-1'>
     
     <li><NavLink to="/">Home</NavLink></li>
@@ -20,7 +21,7 @@ const Navbar = () => {
     
   <div className="badge badge-secondary">
   <FaShoppingCart className="mr-2"/>
-    +0</div>
+    +{cart.length}</div>
     </NavLink></li>
    
     </div>
