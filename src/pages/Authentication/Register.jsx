@@ -1,25 +1,55 @@
-import { Link} from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import registerLottie from '../../assets/lottie/Animation - 1734804789886.json'
 import logo from '../../assets/home/logo.png'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Lottie from 'lottie-react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useForm } from 'react-hook-form'
+import { Helmet } from 'react-helmet-async'
+import { AuthContext } from '../../providers/AuthProvider'
+import { toast } from 'react-toastify'
 
 
 const Register = () => {
-  const {register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate()
+  const {register, handleSubmit, reset, formState: { errors } } = useForm();
+  const {  signInWithGoogle,createUser, updateUserProfile } = useContext(AuthContext)
   const onSubmit = data => {
     console.log(data)
+    createUser(data.email, data.password)
+    .then(result => {
+      const loggedUser = result.user;
+      console.log(loggedUser)
+      updateUserProfile(data.name, data.photoURL)
+      .then(()=>{
+        reset();
+        toast.success('Signup Successful')
+        navigate('/')
+      })
+      .catch(error => console.log(error))
+    })
   }
     const [showPassword, setShowPassword] = useState(false)
   
   
     // Google Signin
-    const handleGoogleSignIn =  () => {
+    const handleGoogleSignIn = async () => {
+      try {
+        await signInWithGoogle()
+  
+        toast.success('Signin Successful')
+        navigate('/')
+      } catch (err) {
+        console.log(err)
+        toast.error(err?.message)
+      }
     }
   
     return (
+      <>
+              <Helmet>
+                      <title>Bistro Boss | SignUp</title>
+                  </Helmet>
         <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
       <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl '>
         <div className='w-full px-6 py-8 md:px-8 lg:w-1/2'>
@@ -97,13 +127,11 @@ const Register = () => {
               </label>
               <input
                 id='photo'
-                autoComplete='photo'
                 {...register("photo", { required: true })}
-                name='photo'
                 className='block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300'
                 type='text'
               />
-               {errors.name && <span className='text-red-500'>Photo is required</span>}
+               {errors.photo && <span className='text-red-500'>Photo is required</span>}
             </div>
             <div className='mt-4'>
               <label
@@ -120,7 +148,7 @@ const Register = () => {
                 className='block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300'
                 type='email'
               />
-               {errors.name && <span className='text-red-500'>Email is required</span>}
+               {errors.email && <span className='text-red-500'>Email is required</span>}
             </div>
 
             <div className='mt-4 relative'>
@@ -172,7 +200,7 @@ const Register = () => {
               to='/login'
               className='text-xs text-gray-500 uppercase  hover:underline'
             >
-              or sign in
+              or Log in
             </Link>
 
             <span className='w-1/5 border-b  md:w-1/4'></span>
@@ -182,6 +210,8 @@ const Register = () => {
           className='hidden bg-cover mt-20 bg-center lg:block lg:w-1/2'><Lottie animationData={registerLottie}></Lottie></div>
       </div>
     </div>
+      
+      </>
     );
 };
 

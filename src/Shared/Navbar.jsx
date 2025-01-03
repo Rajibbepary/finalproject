@@ -1,9 +1,13 @@
-import { Link, NavLink } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import logo from '../assets/home/logo.png'
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
+import { FaShoppingCart } from "react-icons/fa";
 
 
 const Navbar = () => {
-
+  const { user, logOut } = useContext(AuthContext)
+  
     const links = <div className='flex uppercase max-sm:flex-col gap-1'>
     
     <li><NavLink to="/">Home</NavLink></li>
@@ -11,6 +15,14 @@ const Navbar = () => {
     <li><NavLink to='/order/salad' >Our Food</NavLink></li>
     <li><NavLink to='/' >Contact Us</NavLink></li>
     <li><NavLink to='/'>Dashboard</NavLink></li>
+    <li><NavLink to='/'>
+    
+    
+  <div className="badge badge-secondary">
+  <FaShoppingCart className="mr-2"/>
+    +0</div>
+    </NavLink></li>
+   
     </div>
 
 
@@ -51,7 +63,43 @@ const Navbar = () => {
   {/* dropdown part start */}
  
   <div className="navbar-end mr-6">
-    <Link to='/login'>Login</Link> 
+  {!user && (
+            
+              <ul>
+                <NavLink to='/login'>Login</NavLink>
+              </ul>
+            
+          )}
+           {user && (
+          <div className='dropdown dropdown-end z-50'>
+            <div
+              tabIndex={0}
+              role='button'
+              className='btn btn-ghost btn-circle avatar'
+            >
+              <div title={user?.displayName} className='w-10 rounded-full'>
+                <img
+                  referrerPolicy='no-referrer'
+                  alt='User Profile Photo'
+                  src={user?.photoURL}
+                />
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
+            >
+              <li className='mt-2 bg-white text-black'>
+                <button
+                  onClick={logOut}
+                  className='bg-gray-200 block text-center'
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
   </div>
 </div>
     );
