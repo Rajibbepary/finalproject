@@ -8,22 +8,34 @@ import { useForm } from 'react-hook-form'
 import { Helmet } from 'react-helmet-async'
 import { AuthContext } from '../../providers/AuthProvider'
 import { toast } from 'react-toastify'
+import useAxiosPublic from '../../hooks/useAxiosPublic'
 
 
 const Register = () => {
+
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate()
   const {register, handleSubmit, reset, formState: { errors } } = useForm();
   const {  signInWithGoogle,createUser, updateUserProfile } = useContext(AuthContext)
   const onSubmit = data => {
-    console.log(data)
+   // console.log(data)
     createUser(data.email, data.password)
     .then(result => {
       const loggedUser = result.user;
       console.log(loggedUser)
       updateUserProfile(data.name, data.photoURL)
       .then(()=>{
-        reset();
+        const userInfo = {
+          name:data.name,
+          email:data.email
+        }
+        axiosPublic.post('/users', userInfo)
+        .then(res =>{
+          if(res.data.insertedId){
+            reset();
         toast.success('Signup Successful')
+          }
+        })
         navigate('/')
       })
       .catch(error => console.log(error))

@@ -2,9 +2,13 @@ import { FaBars, FaCalendarCheck, FaHome, FaShoppingCart } from "react-icons/fa"
 import { FaBook, FaBowlFood } from "react-icons/fa6";
 import { ImSpoonKnife } from "react-icons/im";
 import { NavLink, Outlet } from "react-router-dom";
+import useCart from "../hooks/useCart";
 
 
 const Dashboard = () => {
+
+    const [cart] = useCart();
+
     return (
         <div className="flex">
             <div className="w-64 min-h-screen bg-[hsla(36,57%,57%,1)] py-10 ">
@@ -24,7 +28,7 @@ const Dashboard = () => {
                         <NavLink to='/dashboard/adminhome' ><FaBook/> MANAGE BOOKINS</NavLink>
                     </li>
                     <li className="text-xl">
-                        <NavLink to='/dashboard/cart'><FaShoppingCart/> MY CART</NavLink>
+                        <NavLink to='/dashboard/cart'><FaShoppingCart/> MY CART({cart.length})</NavLink>
                     </li>
                     <div className="divider divider-primary"></div>
                     <li className="text-xl">

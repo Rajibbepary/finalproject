@@ -10,7 +10,7 @@ import Register from "../pages/Authentication/Register";
 import Contact from "../pages/contact/Contact";
 import Dashboard from "../Layout/Dashboard";
 import Cart from "../pages/Dashboard/Cart/Cart";
-
+import PrivateRoute from "./PrivateRoute";
 
 
 export const router = createBrowserRouter([
@@ -46,7 +46,9 @@ export const router = createBrowserRouter([
     },
     {
       path:'dashboard',
-      element:<Dashboard></Dashboard>,
+      element:<PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>,
       children: [
        {
         path:'cart',
