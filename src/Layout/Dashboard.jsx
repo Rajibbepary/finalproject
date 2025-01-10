@@ -1,13 +1,17 @@
-import { FaBars, FaCalendarCheck, FaHome, FaShoppingCart } from "react-icons/fa";
+import { FaBars, FaCalendarAlt, FaCalendarCheck, FaHome, FaList, FaShoppingCart, FaUser, FaUtensils } from "react-icons/fa";
 import { FaBook, FaBowlFood } from "react-icons/fa6";
-import { ImSpoonKnife } from "react-icons/im";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../hooks/useCart";
+import { MdPayment } from "react-icons/md";
+import useAdmin from "../hooks/useAdmin";
 
 
 const Dashboard = () => {
 
     const [cart] = useCart();
+  
+    const [isAdmin] = useAdmin();
+
 
     return (
         <div className="flex">
@@ -15,14 +19,33 @@ const Dashboard = () => {
                 <h1 className="text-center text-3xl font-bold mb-2">BISTRO BOSS</h1>
                 <p className="text-center text-[20px]" style={{ letterSpacing: '8px' }}>Restaurant</p>
                 <ul className="menu gap-2">
-                <li className="text-xl ">
+                    {
+                        isAdmin?<>
+                          <li className="text-xl ">
                         <NavLink to='/dashboard/adminhome' ><FaHome/> ADMIN HOME</NavLink>
                     </li>
                     <li className="text-xl">
-                        <NavLink to='/dashboard/adminhome' ><ImSpoonKnife /> ADD ITEMS</NavLink>
+                        <NavLink to='/dashboard/adminhome' ><FaUtensils /> ADD ITEMS</NavLink>
                     </li>
                     <li className="text-xl ">
-                        <NavLink to='/dashboard/adminhome' ><FaBars/> MANAGE ITEMS</NavLink>
+                        <NavLink to='/dashboard/adminhome' ><FaList /> MANAG ITEMS</NavLink>
+                    </li>
+                    <li className="text-xl">
+                        <NavLink to='/dashboard/adminhome' ><FaBook/> MANAGE BOOKINS</NavLink>
+                    </li>
+                    <li className="text-xl">
+                        <NavLink to='/dashboard/users'><FaUser/> ALL USER</NavLink>
+                    </li>
+                        </>:
+                        <>
+                          <li className="text-xl ">
+                        <NavLink to='/dashboard/adminhome' ><FaHome/> USEA HOME</NavLink>
+                    </li>
+                    <li className="text-xl">
+                        <NavLink to='/dashboard/adminhome' ><FaCalendarAlt /> RESERVATION</NavLink>
+                    </li>
+                    <li className="text-xl ">
+                        <NavLink to='/dashboard/adminhome' ><MdPayment /> PAYMENT HISTORY</NavLink>
                     </li>
                     <li className="text-xl">
                         <NavLink to='/dashboard/adminhome' ><FaBook/> MANAGE BOOKINS</NavLink>
@@ -30,6 +53,8 @@ const Dashboard = () => {
                     <li className="text-xl">
                         <NavLink to='/dashboard/cart'><FaShoppingCart/> MY CART({cart.length})</NavLink>
                     </li>
+                        </>
+                    }
                     <div className="divider divider-primary"></div>
                     <li className="text-xl">
                         <NavLink to='/'><FaHome/> HOME</NavLink>
