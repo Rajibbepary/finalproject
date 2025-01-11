@@ -4,6 +4,7 @@ import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import useCart from "../../../hooks/useCart";
 import { MdDelete } from "react-icons/md";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const Cart = () => {
@@ -43,7 +44,9 @@ const handleDelete = id =>{
                 <div className="flex justify-evenly items-center">
                     <h2 className="text-3xl">Items: {cart.length}</h2>
                     <h2 className="text-3xl">Total Price: {totalPrice}</h2>
-                    <p className="btn  bg-[hsla(36,57%,57%,1)]">Pay</p>
+                  {cart.length ? <Link to='/dashboard/payment'>
+                   <button className="btn  bg-[hsla(36,57%,57%,1)]">Pay</button>
+                   </Link> : <button disabled className="btn  bg-[hsla(36,57%,57%,1)]">Pay</button>}
                 </div>
 
                 <div className="overflow-x-auto ">

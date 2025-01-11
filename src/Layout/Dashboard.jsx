@@ -42,7 +42,7 @@ const Dashboard = () => {
                         <NavLink to='/dashboard/adminhome' ><FaHome/> USEA HOME</NavLink>
                     </li>
                     <li className="text-xl">
-                        <NavLink to='/dashboard/adminhome' ><FaCalendarAlt /> RESERVATION</NavLink>
+                        <NavLink to='/dashboard/payment' ><FaCalendarAlt /> RESERVATION</NavLink>
                     </li>
                     <li className="text-xl ">
                         <NavLink to='/dashboard/adminhome' ><MdPayment /> PAYMENT HISTORY</NavLink>

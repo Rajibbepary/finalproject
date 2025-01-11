@@ -2,23 +2,51 @@ import { MdDelete } from "react-icons/md";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import useMenu from "../../../hooks/useMenu";
 import { RxUpdate } from "react-icons/rx";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const ManageItems = () => {
-    const [menu] = useMenu();
+    const [menu, refetch] = useMenu();
+    const axiosSecure = useAxiosSecure();
 const handleDeleteItem = (item) =>{
-    
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then( async (result) => {
+        if (result.isConfirmed) {
+         const res = await axiosSecure.delete(`/menu/${item._id}`)
+         if(res.data.deletedCount > 0){
+            refetch();
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title:`${item.name} has been deleted` ,
+                showConfirmButton: false,
+                timer: 1500
+              });
+         }
+        }
+      });
+
 }
 
 
     return (
-        <div>
+        <div className="w-11/12 mx-auto">
             <SectionTitle subHeading={'Hurry Up!'} heading={'manage all items'}></SectionTitle>
-            <div>
+            <div className="bg-slate-100 p-8 rounded-md shadow-2xl my-6" >
+              <h1 className="text-2xl font-semibold">TOTAL ITEMS: {menu.length}</h1>
             <div className="overflow-x-auto">
   <table className="table w-full">
     {/* head */}
-    <thead>
+    <thead className="bg-[#D1A054] p-3 text-white">
       <tr>
         <th>
          #
@@ -54,10 +82,9 @@ const handleDeleteItem = (item) =>{
         </td>
         <td>$ {item.price}</td>
         <td>
-        <button 
-                    //  onClick={() => handleDelete(item._id)
-                  
-                     className="btn btn-ghost "><RxUpdate className="text-2xl text-red-500"/></button>
+       <Link to={`/dashboard/updateItem/${item._id}`}>
+       <button className="btn btn-ghost "><RxUpdate className="text-2xl text-red-500"/></button>
+       </Link>
         </td>
         <td>
         <button 
